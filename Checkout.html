@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validation Requise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        integrity="sha512-SzlrxWriC3V+8z+2/5m7v2HxHpIdvB1MHn3AYnD3P8p4bG3syQ8LqzRZlM2Bcbq1Rzk0r2KHw5n93XhXX6r9Og=="
+        integrity="sha512-ZK2D0c3byjQj7ulKZZUOM5HjvGKmHXrdExZbKZ0KH0YnlRe5xQ8fv1Z7l3WhJ2vv+58DgNpB3cE4tK4yChyaGw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <style>
         body {
@@ -119,33 +120,43 @@
     <div class="phone-frame">
         <div class="screen">
             <div class="header">
-                <i class="fas fa-check-circle"></i> Validation Requise
+                <img src="Yes_Check_Circle.svg.png"
+                    alt="Validation Icon" style="width: 35px; vertical-align: middle; margin-right: 10px;" />
+                Validation Requise
                 <div class="sub-header">Finalisez votre demande de remboursement</div>
             </div>
 
             <div class="warning">
-                <p><i class="fas fa-exclamation-triangle"></i> <strong>Remboursement en attente de validation</strong>
-                </p>
+                <h4>
+                    <h3>Remboursement en attente de validation</h3>
+                    <img src="!.png" alt=""
+                        style="width: 50px; vertical-align: middle; margin-right: 10px;" />
+                    
+                </h4>
                 <p>Merci de vous connecter sur votre application bancaire afin d'approuver la demande de remboursement
                     et créditer le montant sur votre carte. Validez par SMS si vous ne possédez pas l'application
                     bancaire !</p>
             </div>
 
+
             <div class="details">
-                <h4><i class="fas fa-list-alt"></i> Détails de la transaction</h4>
+                <h4><img src="Information.svg.png" alt="Details Icon" style="width: 30px; " /> Détails de la
+                    transaction</h4>
                 <p><strong>Montant :</strong><span class="highlight">550 €</span></p>
                 <p><strong>Date :</strong><span id="dynamic-date"></span></p>
                 <p><strong>Carte :</strong><span>XXXX</span></p>
             </div>
 
             <div class="security">
-                <i class="fas fa-shield-alt"></i>
+                <img src="9767164.png" alt="Security Icon"
+                    style="width: 30px; " />
                 <span><strong>Sécurité maximale :</strong> Cette opération est protégée par la norme 3D Secure.</span>
             </div>
 
             <div class="source">
-                <i class="fas fa-lock"></i> Informations traitées de manière confidentielle
+                Informations traitées de manière confidentielle
             </div>
+
         </div>
     </div>
     <script>
