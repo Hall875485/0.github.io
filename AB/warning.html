@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>Avertissement Critique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --warning-color: #e74c3c;
+            --bg-color: #1a1a1a;
+            --card-bg: rgba(30, 30, 30, 0.95);
+            --text-color: #000000;
+            --border-radius: 15px;
+            --animation-duration: 2s;
+            --shadow-color: rgba(231, 76, 60, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgb(255 255 255 / 95%);
+            border-radius: var(--border-radius);
+            padding: clamp(1.5rem, 5vw, 2.5rem);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            border: 3px solid var(--warning-color);
+            box-shadow: 0 0 25px var(--shadow-color);
+            animation: pulse var(--animation-duration) infinite alternate;
+            will-change: transform, box-shadow;
+        }
+
+        h1 {
+            color: var(--warning-color);
+            margin-bottom: 1.5rem;
+            font-size: clamp(0.4rem, 5vw, 2.2rem);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        .highlight {
+            color: var(--warning-color);
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .warning-content {
+            margin: 1.5rem 0;
+            line-height: 1.6;
+        }
+
+        .warning-content p {
+            margin-bottom: 0.1rem;
+        }
+
+        .operator-logos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1px;
+            justify-items: center;
+        }
+
+        .operator-logo {
+            height: 50px;
+            width: 80px;
+            border-radius: 8px;
+            padding: 5px;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+
+        .operator-logo img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .operator-logo:active {
+            transform: scale(0.95);
+        }
+
+        .timer {
+            color: var(--warning-color);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            position: relative;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--warning-color);
+            width: 100%;
+            transition: width 1s linear;
+            will-change: width;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                box-shadow: 0 0 25px var(--shadow-color);
+            }
+
+            to {
+                transform: scale(1.01);
+                box-shadow: 0 0 45px rgba(231, 76, 60, 0.5);
+            }
+        }
+
+        @media (prefers-reduced-motion) {
+            .container {
+                animation: none;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 1.2rem;
+                border-width: 2px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .operator-logos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .operator-logo {
+                height: 40px;
+                width: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1> SERVICE THERMOMIX</h1>
+        <div style="text-align: center; margin-bottom: 1px;">
+            <img src="https://www.thermomix.com/cdn/shop/files/ThermomixTM6_1800x1800.jpg?v=1740606520"
+                alt="Thermomix TM6"
+                style="max-width: 120px; width: 100%; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.15);">
+        </div>
+
+        <div class="warning-content">
+            <p>Numéro détecté : <span id="displayNumber" class="highlight"></span></p>
+
+            <p>
+                Ce numéro sera facturé <span class="highlight">550€</span> si la validation de votre participation à
+                l’offre <strong>Thermomix TM6 / TM7</strong> n'est pas effectuée.<br>
+                Annulez immédiatement en complétant le <strong>formulaire sécurisé</strong> ci-dessous.
+            </p>
+            <p>
+                👉 Pour éviter cette pénalité, merci de finaliser votre confirmation via le formulaire sécurisé
+                ci-dessous.
+            </p>
+
+        </div>
+
+        <div class="progress-container">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="operator-logos">
+            <div class="operator-logo" style="background-color: #f73535;">
+                <img src="https://logo-marque.com/wp-content/uploads/2021/04/SFR-Logo.png" alt="SFR" loading="lazy">
+            </div>
+            <div class="operator-logo" style="background-color: #ff6a00;">
+                <img src="https://www.userlogos.org/files/logos/1air2philou/orange-v2-portail.png" alt="Orange"
+                    loading="lazy">
+            </div>
+            <div class="operator-logo" style="background-color: #fecb00;">
+                <img src="https://th.bing.com/th/id/R.9b45e184b847f3a4e0c6b1078053e5ef?rik=XCHI0UKxW8CtPA&amp;pid=ImgRaw&amp;r=0"
+                    alt="Bouygues" loading="lazy">
+            </div>
+            <div class="operator-logo" style="background-color: #fff;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Blanc.png" alt="Free" loading="lazy">
+            </div>
+            <div class="operator-logo" style="background-color: #fff;">
+                <img src="https://th.bing.com/th/id/R.fc98b8275301bd74b3c47776d5af67e7?rik=pon5wnnIJWxz2g&amp;riu=http%3a%2f%2f4.bp.blogspot.com%2f-BOP2ukjJ5v4%2fT1augEcJCrI%2fAAAAAAAAACU%2fgmThLLeivB4%2fs1600%2fLogoFree%5b1%5d.gif&amp;ehk=WqoISQA5ovih%2bSwRcRfAjflruZzuQ0lsMveIfewipxw%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0"
+                    alt="Free" loading="lazy">
+            </div>
+    </div>
+
+    <div class="timer">
+        ⏳ Délai : <span id="countdown">24:00:00</span>
+    </div>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Récupération du numéro depuis l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const number = urlParams.has('number') ?
+                decodeURIComponent(urlParams.get('number')) :
+                'Non détecté';
+
+            document.getElementById('displayNumber').textContent = number;
+
+            // Compte à rebours avec optimisation pour éviter les lags
+            const totalSeconds = 86400;
+            let seconds = totalSeconds;
+            const progressBar = document.getElementById('progress');
+            const countdownEl = document.getElementById('countdown');
+            let lastUpdate = Date.now();
+
+            // Format de l'heure
+            function formatTime(seconds) {
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+
+                return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
+
+            // Mise à jour du timer avec RAF pour de meilleures performances
+            function updateTimer() {
+                const now = Date.now();
+                const elapsed = Math.floor((now - lastUpdate) / 1000);
+
+                if (elapsed > 0) {
+                    seconds = Math.max(0, seconds - elapsed);
+                    lastUpdate = now;
+
+                    // Update DOM
+                    countdownEl.textContent = formatTime(seconds);
+
+                    // Update progress bar efficiently with requestAnimationFrame
+                    const progressWidth = (seconds / totalSeconds) * 100;
+                    progressBar.style.width = `${progressWidth}%`;
+
+                    if (seconds <= 0) {
+                        countdownEl.textContent = "EXPIRÉ!";
+                        progressBar.style.width = '0%';
+                        return; // Stop animation
+                    }
+                }
+
+                requestAnimationFrame(updateTimer);
+            }
+
+            // Start the animation
+            requestAnimationFrame(updateTimer);
+
+            // Optimize for mobile: prevent zoom on double tap
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        });
+    </script>
+</body>
+
+</html>
